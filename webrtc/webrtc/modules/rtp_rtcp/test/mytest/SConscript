@@ -1,0 +1,27 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#./'])
+_env.Append(LIBPATH = ['#out/webrtc/modules/rtp_rtcp', 
+                        '#out/webrtc/system_wrappers',
+                        '#out/webrtc/base/', 
+                        '#out/webrtc/',        
+                        ])
+
+_env['LIBS'] = ['c', 'dl', 'gsv_modules_rtp_rtcp', 'gsv_system_wrappers', 'gsv_base', 'gsv_common', 'pthread', 'rt']
+
+totalSources = [
+    'RTP.cpp'
+  ]
+
+
+
+_myName='RTP'
+objs = totalSources
+target = _env.Program(_myName, objs)
+objs.append(target)
+
+
+Return('target')

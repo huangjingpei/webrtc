@@ -1,0 +1,33 @@
+﻿Import('*')
+
+_env = env.Clone()
+#_env.Append(CPPFLAGS = "-DOS_PATH_SEPARATOR=\"'/'\" ")
+_env.Append(CPPPATH = ['#/',
+			'#modules/interface',
+			'#modules/rtp_rtcp/interface',
+			'#modules/rtp_rtcp/source',
+			'#modules/remote_bitrate_estimator/include',
+			'#modules/pacing/include',
+			'#system_wrappers/interface',
+			'#../test',
+			'#../test/testsupport'])
+ 
+_env.Append(LIBPATH = [])
+_env['LIBS'] = ['cutils', 'dl', 'stdc++']
+
+totalSources = [
+    "aimd_rate_control.cc",
+    "inter_arrival.cc",
+    "overuse_detector.cc",
+    "overuse_estimator.cc",
+    "remote_bitrate_estimator_abs_send_time.cc",
+    "remote_bitrate_estimator_single_stream.cc",
+    "remote_estimator_proxy.cc",
+    "send_time_history.cc",
+    "transport_feedback_adapter.cc",
+
+]
+
+all = _env.StaticLibrary('libwebrtc_rtp_rtcp_rbe_s.a', totalSources, _LIBFLAGS=' -Wl,-Bsymbolic')
+
+Return('all')

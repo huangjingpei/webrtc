@@ -1,0 +1,35 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' -DJSON_USE_EXCEPTION=0')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './source/include', './overrides/include','./source/src/lib_json'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+    "overrides/include/json/value.h",
+    "overrides/src/lib_json/json_reader.cpp",
+    "overrides/src/lib_json/json_value.cpp",
+    "source/include/json/assertions.h",
+    "source/include/json/autolink.h",
+    "source/include/json/config.h",
+    "source/include/json/features.h",
+    "source/include/json/forwards.h",
+    "source/include/json/json.h",
+    "source/include/json/reader.h",
+    "source/include/json/writer.h",
+    "source/src/lib_json/json_batchallocator.h",
+    "source/src/lib_json/json_tool.h",
+    "source/src/lib_json/json_writer.cpp",
+  ]
+
+
+
+_myName='libgsv_thp_json'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

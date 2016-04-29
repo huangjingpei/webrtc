@@ -1,0 +1,69 @@
+﻿Import('*')
+
+import re
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = '')
+
+
+_env.Append(CPPPATH = ['#.','#webrtc/',
+        '#webrtc/common_audio/signal_processing/include'])
+
+totalSources = ''' \
+    arith_routines.c \
+    arith_routines_hist.c \
+    arith_routines_logist.c \
+    bandwidth_estimator.c \
+    decode.c \
+    decode_bwe.c \
+    decode_plc.c \
+    encode.c \
+    entropy_coding.c \
+    fft.c \
+    filterbank_tables.c \
+    filterbanks.c \
+    filters.c \
+    initialize.c \
+    isacfix.c \
+    lattice.c \
+    lpc_masking_model.c \
+    lpc_tables.c \
+    pitch_estimator.c \
+    pitch_filter.c \
+    pitch_gain_tables.c \
+    pitch_lag_tables.c \
+    pitch_estimator_c.c\
+    spectrum_ar_model_tables.c \
+    transform.c\
+    transform_tables.c
+'''
+
+skipSources = '''
+ 
+'''
+
+
+_myName='libgsv_isacfix'
+objs = totalSources.split()
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+################################################################################
+#totalSources = ''' \
+#   filters_neon.c \
+#    lattice_neon.S \
+#    lpc_masking_model_neon.S
+#
+#'''
+#_myName='libgsv_isacfix_neon'
+#objs = totalSources.split()
+#target += _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+#objs.append(target)
+
+
+################################################################################
+
+
+
+
+Return('target')

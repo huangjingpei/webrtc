@@ -1,0 +1,120 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+_env.Append(CPPFLAGS = "")
+_env.Append(CPPPATH = ['#.','#webrtc',
+        '#webrtc/common_audio/signal_processing/include',
+        '#webrtc/modules/audio_coding/codecs/ilbc/interface'])
+
+totalSources = '''\
+    abs_quant.c \
+    abs_quant_loop.c \
+    augmented_cb_corr.c \
+    bw_expand.c \
+    cb_construct.c \
+    cb_mem_energy.c \
+    cb_mem_energy_augmentation.c \
+    cb_mem_energy_calc.c \
+    cb_search.c \
+    cb_search_core.c \
+    cb_update_best_index.c \
+    chebyshev.c \
+    comp_corr.c \
+    constants.c \
+    create_augmented_vec.c \
+    decode.c \
+    decode_residual.c \
+    decoder_interpolate_lsf.c \
+    do_plc.c \
+    encode.c \
+    energy_inverse.c \
+    enh_upsample.c \
+    enhancer.c \
+    enhancer_interface.c \
+    filtered_cb_vecs.c \
+    frame_classify.c \
+    gain_dequant.c \
+    gain_quant.c \
+    get_cd_vec.c \
+    get_lsp_poly.c \
+    get_sync_seq.c \
+    hp_input.c \
+    hp_output.c \
+    ilbc.c \
+    index_conv_dec.c \
+    index_conv_enc.c \
+    init_decode.c \
+    init_encode.c \
+    interpolate.c \
+    interpolate_samples.c \
+    lpc_encode.c \
+    lsf_check.c \
+    lsf_interpolate_to_poly_dec.c \
+    lsf_interpolate_to_poly_enc.c \
+    lsf_to_lsp.c \
+    lsf_to_poly.c \
+    lsp_to_lsf.c \
+    my_corr.c \
+    nearest_neighbor.c \
+    pack_bits.c \
+    poly_to_lsf.c \
+    poly_to_lsp.c \
+    refiner.c \
+    simple_interpolate_lsf.c \
+    simple_lpc_analysis.c \
+    simple_lsf_dequant.c \
+    simple_lsf_quant.c \
+    smooth.c \
+    smooth_out_data.c \
+    sort_sq.c \
+    split_vq.c \
+    state_construct.c \
+    state_search.c \
+    swap_bytes.c \
+    unpack_bits.c \
+    vq3.c \
+    vq4.c \
+    window32_w32.c \
+    xcorr_coef.c
+'''
+
+skipSources = '''
+ 
+'''
+
+
+_myName='libgsv_ilbc'
+objs = totalSources.split()
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+################################################################################
+'''
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl','sv_ilbc','sv_spl','sv_spl_neon','utils']
+
+_myName='webrtc_ilbc_test'
+totalSources = test/iLBC_test.c
+
+
+
+objs = totalSources.split()
+target = _env.Program(_myName, objs)
+objs.append(target)
+
+_myName='webrtc_ilbc_testLib'
+totalSources = test/iLBC_testLib.c
+
+
+
+objs = totalSources.split()
+target = _env.Program(_myName, objs)
+objs.append(target)
+'''
+################################################################################
+
+
+
+
+Return('target')

@@ -1,0 +1,45 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = '''\
+        source/aligned_malloc.cc \
+        source/atomic32_posix.cc \
+        source/clock.cc \
+        source/cpu_info.cc \
+        source/cpu_features.cc \
+        source/data_log.cc \
+        source/data_log_c.cc \
+        source/data_log_no_op.cc \
+        source/event.cc \
+        source/event_timer_posix.cc \
+        source/file_impl.cc \
+        source/logging.cc \
+        source/rtp_to_ntp.cc \
+        source/rw_lock.cc \
+        source/rw_lock_posix.cc \
+        source/sleep.cc \
+        source/sort.cc \
+        source/tick_util.cc \
+        source/timestamp_extrapolator.cc \
+        source/trace_impl.cc \
+        source/trace_posix.cc \
+
+'''
+
+skipSources = '''
+ android/cpu-features.c \
+'''
+
+_myName='libgsv_system_wrappers'
+objs = totalSources.split()
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

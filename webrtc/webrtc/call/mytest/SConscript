@@ -1,0 +1,22 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+	"mycall.cpp"
+  ]
+
+
+
+_myName='mycall'
+objs = totalSources
+target = _env.Program(_myName, objs)
+objs.append(target)
+
+
+Return('target')
