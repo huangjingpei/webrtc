@@ -155,6 +155,3 @@
 /tools/whitespace.txt
 /x86-generic_out/
 /xcodebuild
-.sconsign.dblite
-/release/
-/webrtc/out/

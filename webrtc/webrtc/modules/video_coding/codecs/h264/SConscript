@@ -1,0 +1,23 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './', '#third_party/depends/libvpx', '#third_party/depends/libyuv/include'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
+
+totalSources = [
+
+	'h264.cc',
+  ]
+
+
+
+_myName='libgsv_codecs_h264'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

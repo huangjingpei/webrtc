@@ -1,0 +1,50 @@
+﻿Import('*')
+
+_env = env.Clone()
+
+_env.Append(CPPFLAGS = ' -UWEBRTC_ARCH_X86_FAMILY ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
+
+totalSources = [
+	"content_analysis.cc",
+
+	"frame_preprocessor.cc",
+
+
+	"spatial_resampler.cc",
+
+	"util/denoiser_filter.cc",
+
+	"util/denoiser_filter_c.cc",
+
+	"util/noise_estimation.cc",
+
+	"util/skin_detection.cc",
+
+	"video_decimator.cc",
+
+	"video_denoiser.cc",
+
+	"video_processing_impl.cc",
+
+
+
+	"content_analysis_sse2.cc",
+	"util/denoiser_filter_sse2.cc",
+
+
+
+  ]
+
+
+
+_myName='libgsv_modules_video_processing'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

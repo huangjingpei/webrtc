@@ -29,6 +29,7 @@ totalSources = '''\
         source/timestamp_extrapolator.cc \
         source/trace_impl.cc \
         source/trace_posix.cc \
+	source/field_trial_default.cc \
 
 '''
 

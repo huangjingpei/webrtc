@@ -1,0 +1,26 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
+
+totalSources = [
+    "bitrate_prober.cc",
+    "paced_sender.cc",
+    "packet_router.cc",
+
+
+  ]
+
+
+
+_myName='libgsv_modules_pacing'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

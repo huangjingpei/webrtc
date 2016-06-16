@@ -9,10 +9,16 @@ _env.Append(CPPPATH = ['#.','#webrtc',
 _env.Append(LIBPATH = 'lib')
 _env['LIBS'] = ['c', 'rt', 'dl']
 
-totalSources = '''
-    g711_interface.c \
-    g711.c
-'''
+totalSources =[
+        'audio_decoder_pcm.cc',
+        'audio_decoder_pcm.h',
+        'audio_encoder_pcm.cc',
+        'audio_encoder_pcm.h',
+        'g711_interface.c',
+        'g711_interface.h',
+        'g711.c',
+        'g711.h',
+]
 
 skipSources = '''
  
@@ -22,7 +28,7 @@ skipSources = '''
 
 _myName='libgsv_g711'
 
-objs = totalSources.split()
+objs = totalSources
 target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
 objs.append(target)
 

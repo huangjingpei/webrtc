@@ -1,7 +1,7 @@
 ﻿Import('*')
 
 _env = env.Clone()
-_env.Append(CPPFLAGS = ' ')
+_env.Append(CPPFLAGS = ' -DWEBRTC_CODEC_ISAC ')
 _env.Append(CPPFLAGS = "")
 _env.Append(CPPPATH = ['#.','#webrtc',
         '#webrtc/modules/audio_coding/codecs/g726/src/spandsp/'])
@@ -10,19 +10,23 @@ _env.Append(LIBPATH = 'lib')
 _env['LIBS'] = ['c', 'rt', 'dl']
 
 totalSources= [
-    "acm_common_defs.h",
-    "acm_receiver.cc",
-    "acm_receiver.h",
-    "acm_resampler.cc",
-    "acm_resampler.h",
-    "audio_coding_module.cc",
-    "audio_coding_module_impl.cc",
-    "audio_coding_module_impl.h",
-    "call_statistics.cc",
-    "call_statistics.h",
-    "codec_manager.cc",
-    "codec_manager.h",
-    "initial_delay_manager.cc"
+	"acm_common_defs.h",
+	"acm_receiver.cc",
+	"acm_receiver.h",
+	"acm_resampler.cc",
+	"acm_resampler.h",
+	"audio_coding_module.cc",
+	"audio_coding_module_impl.cc",
+	"audio_coding_module_impl.h",
+	"call_statistics.cc",
+	"call_statistics.h",
+	"codec_manager.cc",
+	"codec_manager.h",
+	"initial_delay_manager.cc",
+	"acm_codec_database.cc",
+	"acm_codec_database.h",
+	"rent_a_codec.cc",
+	"rent_a_codec.h",
 
 ]
 

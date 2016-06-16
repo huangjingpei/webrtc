@@ -1,0 +1,84 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+_env.Append(CPPFLAGS = "")
+_env.Append(CPPPATH = ['#.','#webrtc',
+        '#webrtc/common_audio/signal_processing/include',
+        '#webrtc/modules/audio_coding/codecs/isac/main/include'])
+
+totalSources = [
+
+        'main/source/arith_routines.c',
+        'main/source/arith_routines_hist.c',
+        'main/source/arith_routines_logist.c',
+        'main/source/audio_decoder_isac.cc',
+        'main/source/audio_encoder_isac.cc',
+        'main/source/bandwidth_estimator.c',
+        'main/source/crc.c',
+        'main/source/decode.c',
+        'main/source/decode_bwe.c',
+        'main/source/encode.c',
+        'main/source/encode_lpc_swb.c',
+        'main/source/entropy_coding.c',
+        'main/source/fft.c',
+        'main/source/filter_functions.c',
+        'main/source/filterbank_tables.c',
+        'main/source/intialize.c',
+        'main/source/isac.c',
+
+        'main/source/filterbanks.c',
+        'main/source/pitch_lag_tables.c',
+        'main/source/lattice.c',
+        'main/source/lpc_gain_swb_tables.c',
+        'main/source/lpc_analysis.c',
+        'main/source/lpc_shape_swb12_tables.c',
+        'main/source/lpc_shape_swb16_tables.c',
+        'main/source/lpc_tables.c',
+        'main/source/pitch_estimator.c',
+        'main/source/pitch_filter.c',
+        'main/source/pitch_gain_tables.c',
+        'main/source/spectrum_ar_model_tables.c',
+        'main/source/transform.c',
+        'locked_bandwidth_info.cc',
+]
+
+skipSources = '''
+ 
+'''
+
+
+_myName='libgsv_isac'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+################################################################################
+'''
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl','sv_ilbc','sv_spl','sv_spl_neon','utils']
+
+_myName='webrtc_ilbc_test'
+totalSources = test/iLBC_test.c
+
+
+
+objs = totalSources.split()
+target = _env.Program(_myName, objs)
+objs.append(target)
+
+_myName='webrtc_ilbc_testLib'
+totalSources = test/iLBC_testLib.c
+
+
+
+objs = totalSources.split()
+target = _env.Program(_myName, objs)
+objs.append(target)
+'''
+################################################################################
+
+
+
+
+Return('target')
