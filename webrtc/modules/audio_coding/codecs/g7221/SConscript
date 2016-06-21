@@ -1,0 +1,43 @@
+﻿Import('*')
+
+_env = env.Clone()
+
+
+_env.Append(CPPPATH = ['#webrtc',
+        '#webrtc/modules/audio_coding/codecs/g7221/include'])
+
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = '''
+    g7221_interface.c \
+    basop32.c \
+    coef2sam.c \
+    commonf.c \
+    dct4.c \
+    decoder.c \
+    encoder.c \
+    sam2coef.c \
+    bitstream.c \
+    common.c \
+    dct4_a.c \
+    dct4_s.c \
+    decoderf.c \
+    encoderf.c \
+    huff_tab.c \
+    tables.c
+
+'''
+
+skipSources = '''
+ 
+'''
+
+
+
+_myName='libgsv_g7221'
+objs = objs = _env.Glob('*.c') + _env.Glob('*.cpp') ;totalSources.split()
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+Return('target')

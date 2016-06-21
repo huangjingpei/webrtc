@@ -1,0 +1,45 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+    "channel.cc",
+    "channel_manager.cc",
+    "channel_proxy.cc",
+    "level_indicator.cc",
+    "monitor_module.cc",
+    "network_predictor.cc",
+    "output_mixer.cc",
+    "shared_data.cc",
+    "statistics.cc",
+    "transmit_mixer.cc",
+    "utility.cc",
+    "utility.h",
+    "voe_audio_processing_impl.cc",
+    "voe_base_impl.cc",
+    "voe_codec_impl.cc",
+    "voe_external_media_impl.cc",
+    "voe_file_impl.cc",
+    "voe_hardware_impl.cc",
+    "voe_neteq_stats_impl.cc",
+    "voe_network_impl.cc",
+    "voe_rtp_rtcp_impl.cc",
+    "voe_video_sync_impl.cc",
+    "voe_volume_control_impl.cc",
+    "voice_engine_impl.cc",
+  ]
+
+
+
+_myName='libgsv_voice_engine'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

@@ -1,0 +1,33 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
+
+totalSources = [
+    "include/audio_conference_mixer.h",
+    "include/audio_conference_mixer_defines.h",
+    "source/audio_conference_mixer_impl.cc",
+    "source/audio_conference_mixer_impl.h",
+    "source/audio_frame_manipulator.cc",
+    "source/audio_frame_manipulator.h",
+    "source/memory_pool.h",
+    "source/memory_pool_posix.h",
+    "source/memory_pool_win.h",
+    "source/time_scheduler.cc",
+    "source/time_scheduler.h",
+
+  ]
+
+
+
+_myName='libgsv_audio_conference_mixer'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

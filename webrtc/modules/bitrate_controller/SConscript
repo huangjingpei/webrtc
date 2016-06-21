@@ -1,0 +1,24 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
+
+totalSources = [
+    "bitrate_controller_impl.cc",
+    "send_side_bandwidth_estimation.cc",
+
+  ]
+
+
+
+_myName='libgsv_modules_bitrate_controller'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

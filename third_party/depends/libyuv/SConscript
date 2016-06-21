@@ -1,0 +1,52 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' -DJSON_USE_EXCEPTION=0')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', '#third_party/depends/libyuv/include'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+    "source/compare.cc",
+    "source/compare_common.cc",
+    "source/compare_posix.cc",
+    "source/compare_win.cc",
+    "source/convert.cc",
+    "source/convert_argb.cc",
+    "source/convert_from.cc",
+    "source/convert_from_argb.cc",
+    "source/convert_jpeg.cc",
+    "source/convert_to_argb.cc",
+    "source/convert_to_i420.cc",
+    "source/cpu_id.cc",
+    "source/mjpeg_decoder.cc",
+    "source/mjpeg_validate.cc",
+    "source/planar_functions.cc",
+    "source/rotate.cc",
+    "source/rotate_argb.cc",
+    "source/rotate_mips.cc",
+    "source/row_any.cc",
+    "source/row_common.cc",
+    "source/row_mips.cc",
+    "source/row_posix.cc",
+    "source/row_win.cc",
+    "source/scale.cc",
+    "source/scale_any.cc",
+    "source/scale_argb.cc",
+    "source/scale_common.cc",
+    "source/scale_mips.cc",
+    "source/scale_posix.cc",
+    "source/scale_win.cc",
+    "source/video_common.cc",
+  ]
+
+
+
+_myName='libgsv_thp_libyuv'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

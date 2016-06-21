@@ -1,0 +1,31 @@
+﻿Import('*')
+
+_env = env.Clone()
+
+
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = '''
+    push_resampler.cc \
+    push_sinc_resampler.cc \
+    resampler.cc \
+    sinc_resampler.cc \
+    sinusoidal_linear_chirp_source.cc\
+    sinc_resampler_sse.cc\
+'''
+
+skipSources = '''
+'''
+
+
+
+_myName='libgsv_resampler'
+objs = totalSources.split()
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+Return('target')

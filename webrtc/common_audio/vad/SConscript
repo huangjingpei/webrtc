@@ -1,0 +1,34 @@
+﻿Import('*')
+
+_env = env.Clone()
+print "AAAAAAAAAAAAAAAAAAAAA", type(_env['CPPFLAGS'])
+_env.Append(CPPPATH = ['#.', '#webrtc'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+    "vad.cc",
+    "vad_core.c",
+
+    "vad_filterbank.c",
+
+    "vad_gmm.c",
+
+    "vad_sp.c",
+
+    "webrtc_vad.c",
+]
+
+skipSources = ''
+
+
+
+_myName='libgsv_vad'
+
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+
+Return('target')

@@ -1,0 +1,33 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+
+    "source/audio_frame_operations.cc",
+    "source/coder.cc",
+
+    "source/file_player_impl.cc",
+
+    "source/file_recorder_impl.cc",
+
+    #"source/helpers_android.cc",
+    #"source/jvm_android.cc",
+    "source/process_thread_impl.cc",
+
+  ]
+
+
+
+_myName='libgsv_module_utility'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

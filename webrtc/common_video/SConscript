@@ -1,0 +1,39 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', 
+		'#webrtc', 
+		'#/third_party/depends/libyuv/include'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+    "bitrate_adjuster.cc",
+    "i420_buffer_pool.cc",
+    "include/bitrate_adjuster.h",
+    "include/frame_callback.h",
+    "include/i420_buffer_pool.h",
+    "include/incoming_video_stream.h",
+    "include/video_frame_buffer.h",
+    "incoming_video_stream.cc",
+    "libyuv/include/scaler.h",
+    "libyuv/include/webrtc_libyuv.h",
+    "libyuv/scaler.cc",
+    "libyuv/webrtc_libyuv.cc",
+    "video_frame.cc",
+    "video_frame_buffer.cc",
+    "video_render_frames.cc",
+    "video_render_frames.h",
+  ]
+
+
+
+_myName='libgsv_common_video'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

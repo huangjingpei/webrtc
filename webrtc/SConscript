@@ -1,0 +1,40 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+	"audio_sink.h",
+	"common_types.cc",
+	"common_types.h",
+	"config.cc",
+	"config.h",
+	"engine_configurations.h",
+	"typedefs.h",
+  ]
+
+
+
+_myName='libgsv_common'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+totalSources = [
+    "call/rtc_event_log.cc",
+    "call/rtc_event_log.h",
+  ]
+
+_myName='libgsv_rtc_event'
+objs = objs+totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')
+

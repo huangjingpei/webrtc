@@ -1,0 +1,30 @@
+﻿Import('*')
+
+_env = env.Clone()
+
+
+
+_env.Append(CPPPATH = ['#.','#webrtc',
+        '#webrtc/common_audio/signal_processing/include',
+        '#webrtc/modules/audio_coding/codecs/cng/include'])
+
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = '''
+    webrtc_cng.cc \
+    audio_encoder_cng.cc
+'''
+
+skipSources = '''
+ 
+'''
+
+
+
+_myName='libgsv_cng'
+objs = totalSources.split()
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+Return('target')

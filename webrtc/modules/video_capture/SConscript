@@ -1,0 +1,35 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
+
+totalSources = [
+	"device_info_impl.cc",
+
+
+	"video_capture_factory.cc",
+	"video_capture_impl.cc",
+
+
+	"external/device_info_external.cc",
+	"external/video_capture_external.cc",
+
+	"linux/device_info_linux.cc",
+
+	"linux/video_capture_linux.cc",
+
+  ]
+
+
+
+_myName='libgsv_modules_video_capture'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

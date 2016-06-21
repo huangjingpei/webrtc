@@ -1,0 +1,87 @@
+﻿Import('*')
+import re
+
+_env = env.Clone()
+
+
+_env.Append(CPPPATH =  ['#.', '#webrtc'])
+
+_myName='libgsv_spl'
+
+totalSources = '''
+    auto_corr_to_refl_coef.c \
+    auto_correlation.c \
+    complex_fft.c \
+    copy_set_operations.c \
+    cross_correlation.c \
+    division_operations.c \
+    dot_product_with_scale.c \
+    downsample_fast.c \
+    energy.c \
+    filter_ar.c \
+    filter_ma_fast_q12.c \
+    get_hanning_window.c \
+    get_scaling_square.c \
+    ilbc_specific_functions.c \
+    levinson_durbin.c \
+    lpc_to_refl_coef.c \
+    min_max_operations.c \
+    randomization_functions.c \
+    real_fft.c \
+    refl_coef_to_lpc.c \
+    resample.c \
+    resample_48khz.c \
+    resample_by_2.c \
+    resample_by_2_internal.c \
+    resample_fractional.c \
+    spl_init.c \
+    spl_sqrt.c \
+    splitting_filter.c \
+    sqrt_of_one_minus_x_squared.c \
+    vector_scaling_operations.c
+
+'''
+#sp_gsv_neon.s 
+
+if len(re.findall(r'-DWEBRTC_ARCH_ARM_V7A',''.join(_env['CPPFLAGS']))) :
+  totalSources += '''\
+    filter_ar_fast_q12_armv7.s'''
+else:
+  totalSources += '''\
+    filter_ar_fast_q12.c'''
+
+
+
+if len(re.findall(r'-DWEBRTC_ARCH_ARM_V7A',''.join(_env['CPPFLAGS']))):
+  totalSources += '''\
+    complex_bit_reverse_arm.s \
+    spl_sqrt_floor_arm.s'''
+else:
+  totalSources +=''' \
+    complex_bit_reverse.c \
+    spl_sqrt_floor.c''' 
+
+objs = totalSources.split()
+
+
+target= _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+############################################################################################
+# Build the neon library.
+#totalSources = '''
+#    cross_correlation_neon.s \
+#    downsample_fast_neon.s \
+#    min_max_operations_neon.s \
+#    vector_scaling_operations_neon.s
+#'''
+#_myName='libgsv_spl_neon'
+#objs = totalSources.split()
+
+
+#target += _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+#objs.append(target)
+
+############################################################################################
+
+Return('target')

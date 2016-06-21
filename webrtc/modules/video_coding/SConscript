@@ -1,0 +1,138 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+	#video_coding
+    "codec_database.cc",
+    "codec_database.h",
+    "codec_timer.cc",
+    "codec_timer.h",
+    "content_metrics_processing.cc",
+    "content_metrics_processing.h",
+    "decoding_state.cc",
+    "decoding_state.h",
+    "encoded_frame.cc",
+    "encoded_frame.h",
+    "fec_tables_xor.h",
+    "frame_buffer.cc",
+    "frame_buffer.h",
+    "frame_object.cc",
+    "frame_object.h",
+    "generic_decoder.cc",
+    "generic_decoder.h",
+    "generic_encoder.cc",
+    "generic_encoder.h",
+    "histogram.cc",
+    "histogram.h",
+    "include/video_coding.h",
+    "include/video_coding_defines.h",
+    "inter_frame_delay.cc",
+    "inter_frame_delay.h",
+    "internal_defines.h",
+    "jitter_buffer.cc",
+    "jitter_buffer.h",
+    "jitter_buffer_common.h",
+    "jitter_estimator.cc",
+    "jitter_estimator.h",
+    "media_opt_util.cc",
+    "media_opt_util.h",
+    "media_optimization.cc",
+    "media_optimization.h",
+    "nack_fec_tables.h",
+    "nack_module.cc",
+    "nack_module.h",
+    "packet.cc",
+    "packet.h",
+    "packet_buffer.cc",
+    "packet_buffer.h",
+    "percentile_filter.cc",
+    "percentile_filter.h",
+    "qm_select.cc",
+    "qm_select.h",
+    "qm_select_data.h",
+    "receiver.cc",
+    "receiver.h",
+    "rtt_filter.cc",
+    "rtt_filter.h",
+    "session_info.cc",
+    "session_info.h",
+    "timestamp_map.cc",
+    "timestamp_map.h",
+    "timing.cc",
+    "timing.h",
+    "video_coding_impl.cc",
+    "video_coding_impl.h",
+    "video_receiver.cc",
+    "video_sender.cc",
+
+	#video_coding_utility
+    "utility/frame_dropper.cc",
+    "utility/frame_dropper.h",
+    "utility/moving_average.h",
+    "utility/qp_parser.cc",
+    "utility/qp_parser.h",
+    "utility/quality_scaler.cc",
+    "utility/quality_scaler.h",
+    "utility/vp8_header_parser.cc",
+    "utility/vp8_header_parser.h",
+    "utility/ivf_file_writer.cc",
+    "utility/ivf_file_writer.h",
+
+
+
+	#webrtc_h264
+    #"codecs/h264/h264.cc",
+    #"codecs/h264/include/h264.h",
+	#"codecs/h264/h264_decoder_impl.cc",
+	#"codecs/h264/h264_decoder_impl.h",
+	#"codecs/h264/h264_encoder_impl.cc",
+	#"codecs/h264/h264_encoder_impl.h",
+
+	#webrtc_i420
+    "codecs/i420/i420.cc",
+    "codecs/i420/include/i420.h",
+
+	#webrtc_vp8
+    #"codecs/vp8/default_temporal_layers.cc",
+    #"codecs/vp8/default_temporal_layers.h",
+    #"codecs/vp8/include/vp8.h",
+    #"codecs/vp8/include/vp8_common_types.h",
+    #"codecs/vp8/realtime_temporal_layers.cc",
+    #"codecs/vp8/reference_picture_selection.cc",
+    #"codecs/vp8/reference_picture_selection.h",
+    #"codecs/vp8/screenshare_layers.cc",
+    #"codecs/vp8/screenshare_layers.h",
+    #"codecs/vp8/simulcast_encoder_adapter.cc",
+    #"codecs/vp8/simulcast_encoder_adapter.h",
+    #"codecs/vp8/temporal_layers.h",
+    #"codecs/vp8/vp8_impl.cc",
+    #"codecs/vp8/vp8_impl.h",
+
+
+	#webrtc_vp9    
+	#"codecs/vp9/include/vp9.h",
+    #"codecs/vp9/screenshare_layers.cc",
+    #"codecs/vp9/screenshare_layers.h",
+    #"codecs/vp9/vp9_frame_buffer_pool.cc",
+    #"codecs/vp9/vp9_frame_buffer_pool.h",
+    #"codecs/vp9/vp9_impl.cc",
+    #"codecs/vp9/vp9_impl.h",
+
+
+  ]
+
+
+
+_myName='libgsv_module_video_coding'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')

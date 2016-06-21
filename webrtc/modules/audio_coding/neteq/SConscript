@@ -1,0 +1,99 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' -DNETEQ_VOICEENGINE_CODECS ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc',
+        '#webrtc/modules/audio_coding/codecs/g726/src/spandsp/'])
+
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = [
+        'include/neteq.h',
+        'accelerate.cc',
+        'accelerate.h',
+        #'audio_classifier.cc',
+        #'audio_classifier.h',
+        'audio_decoder_impl.cc',
+        'audio_decoder_impl.h',
+        'audio_multi_vector.cc',
+        'audio_multi_vector.h',
+        'audio_vector.cc',
+        'audio_vector.h',
+        'background_noise.cc',
+        'background_noise.h',
+        'buffer_level_filter.cc',
+        'buffer_level_filter.h',
+        'comfort_noise.cc',
+        'comfort_noise.h',
+        'decision_logic.cc',
+        'decision_logic.h',
+        'decision_logic_fax.cc',
+        'decision_logic_fax.h',
+        'decision_logic_normal.cc',
+        'decision_logic_normal.h',
+        'decoder_database.cc',
+        'decoder_database.h',
+        'defines.h',
+        'delay_manager.cc',
+        'delay_manager.h',
+        'delay_peak_detector.cc',
+        'delay_peak_detector.h',
+        'dsp_helper.cc',
+        'dsp_helper.h',
+        'dtmf_buffer.cc',
+        'dtmf_buffer.h',
+        'dtmf_tone_generator.cc',
+        'dtmf_tone_generator.h',
+        'expand.cc',
+        'expand.h',
+        'merge.cc',
+        'merge.h',
+        'nack.h',
+        'nack.cc',
+        'neteq_impl.cc',
+        'neteq_impl.h',
+        'neteq.cc',
+        'statistics_calculator.cc',
+        'statistics_calculator.h',
+        'normal.cc',
+        'normal.h',
+        'packet.cc',
+        'packet.h',
+        'packet_buffer.cc',
+        'packet_buffer.h',
+        'payload_splitter.cc',
+        'payload_splitter.h',
+        'post_decode_vad.cc',
+        'post_decode_vad.h',
+        'preemptive_expand.cc',
+        'preemptive_expand.h',
+        'random_vector.cc',
+        'random_vector.h',
+        'rtcp.cc',
+        'rtcp.h',
+        'sync_buffer.cc',
+        'sync_buffer.h',
+        'tick_timer.cc',
+        'tick_timer.h',
+        'timestamp_scaler.cc',
+        'timestamp_scaler.h',
+        'time_stretch.cc',
+        'time_stretch.h',
+]
+
+
+skipSources = '''
+ 	'audio_classifier.cc',
+'''
+
+
+_myName='libgsv_neteq'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+
+Return('target')

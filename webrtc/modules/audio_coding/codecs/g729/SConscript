@@ -1,0 +1,62 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' -DWord16=int16_t -DWord32=int32_t -DNULL=0')
+
+_env.Append(CPPPATH = ['#.','#webrtc',
+        '#webrtc/modules/audio_coding/codecs/g729/adt_header'])
+			
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['c', 'rt', 'dl']
+
+totalSources = '''
+ acelp_ca.c\
+ basic_op.c\
+ bits.c\
+ calcexc.c\
+ cod_ld8a.c\
+ cor_func.c\
+ de_acelp.c\
+ dec_gain.c\
+ dec_lag3.c\
+ dec_ld8a.c\
+ dec_sid.c\
+ dspfunc.c\
+ dtx.c\
+ filter.c\
+ gainpred.c\
+ lpc.c\
+ lpcfunc.c\
+ lspdec.c\
+ lspgetq.c\
+ oper_32b.c\
+ p_parity.c\
+ pitch_a.c\
+ post_pro.c\
+ postfilt.c\
+ pre_proc.c\
+ pred_lt3.c\
+ qsidgain.c\
+ qsidlsf.c\
+ qua_gain.c\
+ qua_lsp.c\
+ tab_dtx.c\
+ tab_ld8a.c\
+ taming.c\
+ util.c\
+ vad.c\
+ g729_interface.c 
+'''
+
+skipSources = '''
+ 
+'''
+
+_myName='libgsv_g729'
+objs = totalSources.split()
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+
+Return('target')

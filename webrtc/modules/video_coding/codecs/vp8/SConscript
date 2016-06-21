@@ -1,0 +1,29 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' ')
+
+_env.Append(CPPPATH = ['#.', '#webrtc', './', '#third_party/depends/libvpx', '#third_party/depends/libyuv/include'])
+_env.Append(LIBPATH = 'lib')
+_env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
+
+totalSources = [
+
+	'default_temporal_layers.cc',
+	'realtime_temporal_layers.cc',
+	'reference_picture_selection.cc',
+	'screenshare_layers.cc',
+	'simulcast_encoder_adapter.cc',
+	'vp8_impl.cc',
+
+  ]
+
+
+
+_myName='libgsv_codecs_vp8'
+objs = totalSources
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+
+Return('target')
