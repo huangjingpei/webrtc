@@ -43,7 +43,7 @@ totalSources = [
 
 
 
-_myName='libgsv_thp_libyuv'
+_myName='libgsv_thp_yuv'
 objs = totalSources
 target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
 objs.append(target)

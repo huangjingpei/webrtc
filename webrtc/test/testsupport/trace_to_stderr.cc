@@ -18,7 +18,7 @@
 namespace webrtc {
 namespace test {
 
-static const int kLevelFilter = kTraceError | kTraceWarning | kTraceTerseInfo;
+static const int kLevelFilter = kTraceAll;
 
 TraceToStderr::TraceToStderr()
     : override_time_(false),

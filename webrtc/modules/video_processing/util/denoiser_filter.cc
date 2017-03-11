@@ -14,7 +14,7 @@
 #include "webrtc/modules/video_processing/util/denoiser_filter_neon.h"
 #include "webrtc/modules/video_processing/util/denoiser_filter_sse2.h"
 #include "webrtc/system_wrappers/include/cpu_features_wrapper.h"
-
+#undef WEBRTC_ARCH_X86_FAMILY
 namespace webrtc {
 
 const int kMotionMagnitudeThreshold = 8 * 3;

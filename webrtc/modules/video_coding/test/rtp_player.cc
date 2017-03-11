@@ -258,7 +258,7 @@ class SsrcHandlers {
         PayloadUnion payload_specific;
         it->second->rtp_payload_registry_->GetPayloadSpecifics(
             header.payloadType, &payload_specific);
-        it->second->rtp_module_->IncomingRtpPacket(header, data, length,
+        it->second->rtp_module_->IncomingRtpPacket(header, data+12, length-12,
                                                    payload_specific, true);
       }
     }
@@ -427,6 +427,7 @@ class RtpPlayerImpl : public RtpPlayerInterface {
       if (!rtp_header_parser->Parse(data, length, &header)) {
         return -1;
       }
+
       uint32_t ssrc = header.ssrc;
       if (ssrc_handlers_.RegisterSsrc(ssrc, &lost_packets_, clock_) < 0) {
         DEBUG_LOG1("Unable to register ssrc: %d", ssrc);
@@ -442,7 +443,6 @@ class RtpPlayerImpl : public RtpPlayerInterface {
         return 0;
       }
     }
-
     ssrc_handlers_.IncomingPacket(data, length);
     return 1;
   }
@@ -473,6 +473,7 @@ RtpPlayerInterface* Create(const std::string& input_filename,
                            float loss_rate,
                            int64_t rtt_ms,
                            bool reordering) {
+
   std::unique_ptr<test::RtpFileReader> packet_source(
       test::RtpFileReader::Create(test::RtpFileReader::kRtpDump,
                                   input_filename));

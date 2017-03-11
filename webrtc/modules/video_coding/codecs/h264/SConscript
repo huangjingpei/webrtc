@@ -1,14 +1,15 @@
 ﻿Import('*')
 
 _env = env.Clone()
-_env.Append(CPPFLAGS = ' ')
+_env.Append(CPPFLAGS = ' -DWEBRTC_USE_H264 -DWEBRTC_INITIALIZE_FFMPEG')
 
-_env.Append(CPPPATH = ['#.', '#webrtc', './', '#third_party/depends/libvpx', '#third_party/depends/libyuv/include'])
+_env.Append(CPPPATH = ['#.', '#webrtc', './', '#third_party/depends/libvpx', '#third_party/depends/libyuv/include','#third_party/ffmpeg/'])
 _env.Append(LIBPATH = 'lib')
 _env['LIBS'] = ['vpx', 'c', 'rt', 'dl']
 
 totalSources = [
-
+	'h264_decoder_impl.cc',
+	'h264_encoder_impl.cc',
 	'h264.cc',
   ]
 

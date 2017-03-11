@@ -125,8 +125,8 @@ totalSources = [
         'vad/voice_gmm_tables.h',
         'voice_detection_impl.cc',
         'voice_detection_impl.h',
-	'aec/aec_core_sse2.cc',
-	'aec/aec_rdft_sse2.cc',
+	#'aec/aec_core_sse2.cc',
+	#'aec/aec_rdft_sse2.cc',
 
 
 	'ns/defines.h',

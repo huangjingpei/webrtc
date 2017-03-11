@@ -1,14 +1,65 @@
 ﻿Import('*')
 
 _env = env.Clone()
-_env.Append(CPPFLAGS = ' ')
+_env.Append(CPPFLAGS = ' -DWEBRTC_USE_H264  ')
 
 _env.Append(CPPPATH = ['#.', '#webrtc', '#third_party','#third_party/testing/gtest/include',
 				'#third_party/depends/libvpx', '#third_party/depends/libyuv/include'])
-_env.Append(LIBPATH = ['#release'
+_env.Append(LIBPATH = ['#release',
+			'/home/jphuang/myprojects/GVC3200/avs_mcu/avs_mcu/avs/contrib/lib'
                         ])
 
-_env['LIBS'] = ['c', 'dl', 'gsv_modules_rtp_rtcp',  'gsv_common', 'gsv_call','gsv_video','gsv_modules_video_capture','gsv_modules_video_processing','gsv_common_video','gsv_modules_pacing','gsv_modules_rtp_rtcp','gsv_codecs_h264','gsv_codecs_vp9','gsv_codecs_vp8','gsv_module_video_coding','vpx','gsv_thp_libyuv','gsv_voice_engine','gsv_rtc_event','gsv_audio_conference_mixer','gsv_audio_coding','gsv_cng','gsv_audio', 'gsv_modules_audio_processing','gsv_vad','gsv_isac','gsv_module_utility','gsv_module_media_file','gsv_neteq','gsv_spl','gsv_common_audio','gsv_pcm16b','gsv_g711','gsv_modules_codecs_intf','gsv_modules_congestion_controller','gsv_modules_bitrate_controller', 'webrtc_rtp_rtcp_rbe_s','gsv_system_wrappers','gsv_base', 'gtest_main', 'gtest', 'pthread', 'rt']
+_env['LIBS'] = ['c', 
+    'dl', 
+    'gsv_modules_rtp_rtcp', 
+    'gsv_common', 
+    'gsv_call',
+    'gsv_video',
+    'gsv_modules_video_capture',
+    'gsv_modules_video_processing',
+    'gsv_modules_pacing',
+    'gsv_modules_rtp_rtcp',
+    'gsv_codecs_h264',
+	'gsv_codecs_openh264',
+    'gsv_codecs_vp9',
+    'gsv_codecs_vp8',
+    'gsv_module_video_coding',
+    'gsv_common_video',
+    'vpx',
+    'avcodec',
+    'swresample',
+    'avutil',
+    'z',
+    #'x264',
+    'gsv_thp_yuv',
+    'gsv_thp_jpeg',
+    'gsv_voice_engine',
+    'gsv_rtc_event',
+    'gsv_audio_conference_mixer',
+    'gsv_audio_coding',
+    'gsv_cng',
+    'gsv_audio', 
+    'gsv_modules_audio_processing',
+    'gsv_vad',
+    'gsv_isac',
+    'gsv_module_utility',
+    'gsv_module_media_file',
+    'gsv_neteq',
+    'gsv_spl',
+    'gsv_common_audio',
+    'gsv_pcm16b',
+    'gsv_g711',
+    'gsv_modules_codecs_intf',
+    'gsv_modules_congestion_controller',
+    'gsv_modules_bitrate_controller',
+    'webrtc_rtp_rtcp_rbe_s',
+    'gsv_system_wrappers',
+    'gsv_base',
+    'gtest_main', 
+    'gtest', 
+    'pthread', 
+    'rt',
+    'dl']
 
 totalSources = [
         'mycall.cc',
@@ -29,14 +80,16 @@ totalSources = [
         'vcm_capturer.cc',
         'video_capturer.cc',
         'frame_generator.cc',
+        'rtp_file_reader.cc',
+        'rtp_file_writer.cc',
        
         #testsupport
-        "testsupport/fileutils.cc",
-        "testsupport/frame_reader.cc",
-        "testsupport/frame_writer.cc",
-        "testsupport/packet_reader.cc",
-        "testsupport/perf_test.cc",
-        "testsupport/trace_to_stderr.cc",
+        'testsupport/fileutils.cc',
+        'testsupport/frame_reader.cc',
+        'testsupport/frame_writer.cc',
+        'testsupport/packet_reader.cc',
+        'testsupport/perf_test.cc',
+        'testsupport/trace_to_stderr.cc',
 
         'histogram.cc',
 
@@ -44,9 +97,11 @@ totalSources = [
 
 
 
-_myName='RTP'
+_myName='gsv_webrtc_test_util'
 objs = totalSources
 target = _env.Program('RTCCall', objs)
+#target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+
 objs.append(target)
 
 

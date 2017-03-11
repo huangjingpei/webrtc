@@ -45,6 +45,7 @@ class ExternalDeviceInfo : public DeviceInfoImpl {
 
 VideoCaptureModule::DeviceInfo* VideoCaptureImpl::CreateDeviceInfo(
     const int32_t id) {
+	printf("ExternalDeviceInfo\n");
   return new ExternalDeviceInfo(id);
 }
 

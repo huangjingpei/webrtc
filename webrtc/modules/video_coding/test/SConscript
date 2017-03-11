@@ -1,0 +1,56 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' -DWEBRTC_USE_H264  ')
+
+_env.Append(CPPPATH = ['#./', '#./third_party/','./third_party/testing/gtest/include/','#third_party','#third_party/testing/gtest/include',
+                '#third_party/depends/libvpx', '#third_party/depends/libyuv/include'])
+_env.Append(LIBPATH = ['#out/webrtc/modules/rtp_rtcp', 
+                        '#out/webrtc/system_wrappers',
+                        '#out/webrtc/base/', 
+                        '#out/webrtc/',
+                        '#release',
+                        '/home/jphuang/myprojects/GVC3200/avs_mcu/avs_mcu/avs/contrib/lib'
+                        ])
+
+_env['LIBS'] = ['c', 
+    'dl', 
+    'gsv_modules_rtp_rtcp', 
+    'gsv_thp_libyuv',
+    'gsv_webrtc_test_util',
+    'gsv_module_video_coding',
+    'gsv_codecs_h264',
+	'gsv_codecs_openh264',
+    'gsv_common_video',
+    'gsv_thp_yuv',
+    'gsv_thp_jpeg',
+    'avcodec',
+    'swresample',
+    'avutil',
+    'z',
+    'x264',
+    'gsv_base', 
+    'gsv_common',
+    'gsv_system_wrappers', 
+    'pthread', 
+    'rt',
+    'dl']
+
+totalSources = [
+    'rtp_player.cc',
+    'stream_generator.cc',
+    'tester_main.cc',
+    'test_util.cc',
+    'vcm_payload_sink_factory.cc',
+    'video_rtp_play.cc'
+  ]
+
+
+
+_myName='rtpplayer'
+objs = totalSources
+target = _env.Program(_myName, objs)
+objs.append(target)
+
+
+Return('target')

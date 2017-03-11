@@ -6,5 +6,5 @@
 /* in the file PATENTS.  All contributing project authors may */
 /* be found in the AUTHORS file in the root of the source tree. */
 #include "vpx/vpx_codec.h"
-static const char* const cfg = "--enable-error-concealment --enable-postproc";
+static const char* const cfg = "";
 const char *vpx_codec_build_config(void) {return cfg;}

@@ -23,6 +23,39 @@
 namespace webrtc {
 namespace rtpplayer {
 
+
+
+class NackSenderImpl : public NackSender{
+ public:
+  virtual void SendNack(const std::vector<uint16_t>& sequence_numbers);
+
+ protected:
+  virtual ~NackSenderImpl() {}
+};
+
+void NackSenderImpl::SendNack(const std::vector<uint16_t>& sequence_numbers)
+{
+    printf("SendNack!\n");
+    for (const auto& nack_seq_iter : sequence_numbers) {
+        printf("nack_seq_iter %d\n", nack_seq_iter);
+    }
+}
+
+class KeyFrameRequestSenderImpl : public KeyFrameRequestSender
+{
+    public:
+     virtual void RequestKeyFrame();
+
+    protected:
+     virtual ~KeyFrameRequestSenderImpl() {}
+};
+
+void KeyFrameRequestSenderImpl::RequestKeyFrame()
+{
+    printf("RequestKeyFrame!\n");
+}
+
+
 class VcmPayloadSinkFactory::VcmPayloadSink : public PayloadSinkInterface,
                                               public VCMPacketRequestCallback {
  public:
@@ -41,6 +74,7 @@ class VcmPayloadSinkFactory::VcmPayloadSink : public PayloadSinkInterface,
     frame_receiver_.swap(*frame_receiver);
     vcm_->RegisterPacketRequestCallback(this);
     vcm_->RegisterReceiveCallback(frame_receiver_.get());
+    vcm_->SetDecodeErrorMode(kSelectiveErrors);
   }
 
   virtual ~VcmPayloadSink() { factory_->Remove(this); }
@@ -49,6 +83,10 @@ class VcmPayloadSinkFactory::VcmPayloadSink : public PayloadSinkInterface,
   int32_t OnReceivedPayloadData(const uint8_t* payload_data,
                                 const size_t payload_size,
                                 const WebRtcRTPHeader* rtp_header) override {
+      if(rtp_header->header.sequenceNumber == 11382) {
+          printf("Miss the seq %d\n", rtp_header->header.sequenceNumber);
+          return -1;
+      }
     return vcm_->IncomingPacket(payload_data, payload_size, *rtp_header);
   }
 
@@ -124,9 +162,10 @@ PayloadSinkInterface* VcmPayloadSinkFactory::Create(
     RtpStreamInterface* stream) {
   assert(stream);
   CriticalSectionScoped cs(crit_sect_.get());
-
+  NackSender* nack_sender(new NackSenderImpl());
+  KeyFrameRequestSender *request_key_frame_sender(new KeyFrameRequestSenderImpl());
   std::unique_ptr<VideoCodingModule> vcm(
-      VideoCodingModule::Create(clock_, null_event_factory_.get()));
+      VideoCodingModule::Create(clock_, null_event_factory_.get(), nack_sender, request_key_frame_sender));
   if (vcm.get() == NULL) {
     return NULL;
   }

@@ -15,8 +15,8 @@ totalSources = [
 	"video_capture_impl.cc",
 
 
-	"external/device_info_external.cc",
-	"external/video_capture_external.cc",
+	#"external/device_info_external.cc",
+	#"external/video_capture_external.cc",
 
 	"linux/device_info_linux.cc",
 

@@ -7,34 +7,35 @@
  *  in the file PATENTS.  All contributing project authors may
  *  be found in the AUTHORS file in the root of the source tree.
  */
-#ifndef WEBRTC_TEST_CALL_TEST_H_
-#define WEBRTC_TEST_CALL_TEST_H_
+#ifndef WEBRTC_TEST_CALL_TEST_H_1
+#define WEBRTC_TEST_CALL_TEST_H_1
 
 #include <memory>
 #include <vector>
 
 #include "webrtc/call.h"
+#include "webrtc/video_encoder.h"
 #include "webrtc/call/transport_adapter.h"
 #include "webrtc/test/fake_audio_device.h"
 #include "webrtc/test/fake_decoder.h"
 #include "webrtc/test/fake_encoder.h"
-#include "webrtc/test/frame_generator_capturer.h"
+#include "webrtc/test/video_capturer.h"
 #include "webrtc/test/rtp_rtcp_observer.h"
 
-namespace webrtc {
-
+using namespace webrtc;
+using namespace test;
 class VoEBase;
 class VoECodec;
 class VoENetwork;
 
-namespace test {
+
 
 class BaseTest;
 
-class CallTest : public ::testing::Test {
+class MyCALL {
  public:
-  CallTest();
-  virtual ~CallTest();
+  MyCALL();
+  virtual ~MyCALL();
 
   static const size_t kNumSsrcs = 3;
 
@@ -43,6 +44,7 @@ class CallTest : public ::testing::Test {
   static const uint8_t kVideoSendPayloadType;
   static const uint8_t kSendRtxPayloadType;
   static const uint8_t kFakeVideoSendPayloadType;
+  static const uint8_t kH264VideoSendPayloadType;
   static const uint8_t kRedPayloadType;
   static const uint8_t kRtxRedPayloadType;
   static const uint8_t kUlpfecPayloadType;
@@ -101,8 +103,9 @@ class CallTest : public ::testing::Test {
   std::vector<AudioReceiveStream::Config> audio_receive_configs_;
   std::vector<AudioReceiveStream*> audio_receive_streams_;
 
-  rtc::scoped_ptr<test::FrameGeneratorCapturer> frame_generator_capturer_;
-  test::FakeEncoder fake_encoder_;
+  rtc::scoped_ptr<test::VideoCapturer> frame_generator_capturer_;
+  //test::FakeEncoder fake_encoder_;
+  VideoEncoder *video_encoder_;
   std::vector<std::unique_ptr<VideoDecoder>> allocated_decoders_;
   size_t num_video_streams_;
   size_t num_audio_streams_;
@@ -175,7 +178,7 @@ class BaseTest : public RtpRtcpObserver {
       const std::vector<AudioReceiveStream*>& receive_streams);
 
   virtual void OnFrameGeneratorCapturerCreated(
-      FrameGeneratorCapturer* frame_generator_capturer);
+      VideoCapturer* frame_generator_capturer);
 };
 
 class SendTest : public BaseTest {
@@ -192,7 +195,6 @@ class EndToEndTest : public BaseTest {
   bool ShouldCreateReceivers() const override;
 };
 
-}  // namespace test
-}  // namespace webrtc
 
-#endif  // WEBRTC_TEST_CALL_TEST_H_
+
+#endif  // WEBRTC_TEST_CALL_TEST_H_1

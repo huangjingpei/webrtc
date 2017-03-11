@@ -20,6 +20,7 @@ namespace videocapturemodule {
 VideoCaptureModule::DeviceInfo* VideoCaptureImpl::CreateDeviceInfo(
     const int32_t id) {
   // TODO(tommi): Use the Media Foundation version on Vista and up.
+	printf("DeviceInfoDS!\n");
   return DeviceInfoDS::Create(id);
 }
 

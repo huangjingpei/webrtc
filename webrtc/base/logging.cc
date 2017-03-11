@@ -93,12 +93,13 @@ std::string ErrorName(int err, const ConstantLabel* err_table) {
 /////////////////////////////////////////////////////////////////////////////
 
 // By default, release builds don't log, debug builds at info level
+
 #if !defined(NDEBUG)
 LoggingSeverity LogMessage::min_sev_ = LS_INFO;
 LoggingSeverity LogMessage::dbg_sev_ = LS_INFO;
 #else
-LoggingSeverity LogMessage::min_sev_ = LS_NONE;
-LoggingSeverity LogMessage::dbg_sev_ = LS_NONE;
+LoggingSeverity LogMessage::min_sev_ = LS_SENSITIVE;
+LoggingSeverity LogMessage::dbg_sev_ = LS_SENSITIVE;
 #endif
 bool LogMessage::log_to_stderr_ = true;
 

@@ -51,7 +51,7 @@ FIRFilter* FIRFilter::Create(const float* coefficients,
       new FIRFilterSSE2(coefficients, coefficients_length, max_input_length);
 #else
   // x86 CPU detection required.
-  if (WebRtc_GetCPUInfo(kSSE2)) {
+  if (0/*WebRtc_GetCPUInfo(kSSE2)*/) {
     filter =
         new FIRFilterSSE2(coefficients, coefficients_length, max_input_length);
   } else {

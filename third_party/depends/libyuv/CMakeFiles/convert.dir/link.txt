@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/convert.dir/util/convert.cc.o  -o convert -rdynamic libyuv.a -ljpeg 

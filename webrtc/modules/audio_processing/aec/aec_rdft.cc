@@ -25,6 +25,7 @@
 
 #include "webrtc/system_wrappers/include/cpu_features_wrapper.h"
 #include "webrtc/typedefs.h"
+#undef WEBRTC_ARCH_X86_FAMILY
 
 // These tables used to be computed at run-time. For example, refer to:
 // https://code.google.com/p/webrtc/source/browse/trunk/webrtc/modules/audio_processing/aec/aec_rdft.c?r=6564

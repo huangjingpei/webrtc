@@ -37,8 +37,11 @@ VideoCapturer* VideoCapturer::Create(VideoCaptureInput* input,
   VcmCapturer* vcm_capturer = VcmCapturer::Create(input, width, height, fps);
 
   if (vcm_capturer != NULL) {
+	  printf("vcm_capturer  create ok!\n");
     return vcm_capturer;
   }
+
+
   // TODO(pbos): Log a warning that this failed.
 
   FrameGeneratorCapturer* frame_generator_capturer =

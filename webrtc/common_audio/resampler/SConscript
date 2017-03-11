@@ -15,7 +15,6 @@ totalSources = '''
     resampler.cc \
     sinc_resampler.cc \
     sinusoidal_linear_chirp_source.cc\
-    sinc_resampler_sse.cc\
 '''
 
 skipSources = '''

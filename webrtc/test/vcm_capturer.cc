@@ -26,6 +26,8 @@ bool VcmCapturer::Init(size_t width, size_t height, size_t target_fps) {
 
   char device_name[256];
   char unique_name[256];
+  printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
+
   if (device_info->GetDeviceName(0, device_name, sizeof(device_name),
                                  unique_name, sizeof(unique_name)) !=
       0) {
@@ -93,8 +95,13 @@ VcmCapturer::~VcmCapturer() { Destroy(); }
 void VcmCapturer::OnIncomingCapturedFrame(const int32_t id,
                                           const VideoFrame& frame) {
   rtc::CritScope lock(&crit_);
-  if (started_)
+  if (started_) {
+//      FILE *fp = fopen("data.yuv", "a+");
+//      fwrite(frame.buffer(kYPlane), 1, frame.width()*frame.height(), fp);
+//      fwrite(frame.buffer(kUPlane), 1, frame.width()*frame.height()/2, fp);
+//      fclose(fp)
     input_->IncomingCapturedFrame(frame);
+  }
 }
 
 void VcmCapturer::OnCaptureDelayChanged(const int32_t id, const int32_t delay) {

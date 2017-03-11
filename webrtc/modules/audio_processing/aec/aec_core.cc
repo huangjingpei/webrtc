@@ -38,6 +38,7 @@ extern "C" {
 #include "webrtc/modules/audio_processing/utility/delay_estimator_wrapper.h"
 #include "webrtc/system_wrappers/include/cpu_features_wrapper.h"
 #include "webrtc/typedefs.h"
+#undef WEBRTC_ARCH_X86_FAMILY
 
 namespace webrtc {
 

@@ -75,6 +75,12 @@ class RtpRtcpObserver {
   const int timeout_ms_;
 };
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+//#define WITH_TRANSNET
 class PacketTransport : public test::DirectTransport {
  public:
   enum TransportType { kReceiver, kSender };
@@ -85,7 +91,32 @@ class PacketTransport : public test::DirectTransport {
                   const FakeNetworkPipe::Config& configuration)
       : test::DirectTransport(configuration, send_call),
         observer_(observer),
-        transport_type_(transport_type) {}
+        transport_type_(transport_type) {
+
+        char buf[BUFSIZ];  //数据传送的缓冲区
+        memset(&remote_rtp_addr_,0,sizeof(remote_rtp_addr_)); //数据初始化--清零
+        remote_rtp_addr_.sin_family=AF_INET; //设置为IP通信
+        remote_rtp_addr_.sin_addr.s_addr=inet_addr("172.172.172.198");//服务器IP地址
+        remote_rtp_addr_.sin_port=htons(9696); //服务器端口号
+        memset(&remote_rtcp_addr_,0,sizeof(remote_rtcp_addr_)); //数据初始化--清零
+        remote_rtcp_addr_.sin_family=AF_INET; //设置为IP通信
+        remote_rtcp_addr_.sin_addr.s_addr=inet_addr("172.172.172.198");//服务器IP地址
+        remote_rtcp_addr_.sin_port=htons(9697); //服务器端口号
+
+        if((transport_rtp_fd_=socket(AF_INET,SOCK_DGRAM,0))<0)
+        {
+            printf("transport_fd_ %d\n", transport_rtp_fd_);
+        }
+
+        if((transport_rtcp_fd_=socket(AF_INET,SOCK_DGRAM,0))<0)
+        {
+            printf("transport_fd_ %d\n", transport_rtcp_fd_);
+        }
+
+        lost_seq_num_ = 0;
+
+
+  }
 
  private:
   bool SendRtp(const uint8_t* packet,
@@ -105,12 +136,25 @@ class PacketTransport : public test::DirectTransport {
         // Drop packet silently.
         return true;
       case RtpRtcpObserver::SEND_PACKET:
+#ifdef WITH_TRANSNET
+
+          if (++lost_seq_num_ %100 == 0) {
+              return true;
+          }
+          if((length=sendto(transport_rtp_fd_,packet,length,0,(struct sockaddr *)&remote_rtp_addr_,sizeof(struct sockaddr)))<0) {
+
+          }
+#else
         return test::DirectTransport::SendRtp(packet, length, options);
+#endif
     }
     return true;  // Will never happen, makes compiler happy.
   }
 
   bool SendRtcp(const uint8_t* packet, size_t length) override {
+      if (++lost_seq_num_ %500 == 0) {
+          return true;
+      }
     EXPECT_TRUE(RtpHeaderParser::IsRtcp(packet, length));
     RtpRtcpObserver::Action action;
     {
@@ -125,13 +169,29 @@ class PacketTransport : public test::DirectTransport {
         // Drop packet silently.
         return true;
       case RtpRtcpObserver::SEND_PACKET:
+#ifdef WITH_TRANSNET
+          if((length=sendto(transport_rtcp_fd_,packet,length,0,(struct sockaddr *)&remote_rtcp_addr_,sizeof(struct sockaddr)))<0) {
+
+          }
+#else
         return test::DirectTransport::SendRtcp(packet, length);
+#endif
     }
     return true;  // Will never happen, makes compiler happy.
   }
 
   RtpRtcpObserver* const observer_;
   TransportType transport_type_;
+
+
+  struct sockaddr_in remote_rtp_addr_;
+  struct sockaddr_in remote_rtcp_addr_;
+
+  int transport_rtp_fd_;
+  int transport_rtcp_fd_;
+
+  int lost_seq_num_;
+
 };
 }  // namespace test
 }  // namespace webrtc

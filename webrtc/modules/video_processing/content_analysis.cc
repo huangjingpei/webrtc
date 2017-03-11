@@ -14,6 +14,7 @@
 
 #include "webrtc/system_wrappers/include/cpu_features_wrapper.h"
 #include "webrtc/system_wrappers/include/tick_util.h"
+#undef WEBRTC_ARCH_X86_FAMILY
 
 namespace webrtc {
 

@@ -77,7 +77,7 @@ void InitializeFFmpeg() {
       RTC_NOTREACHED() << "av_lockmgr_register failed.";
       return;
     }
-    av_register_all();
+    avcodec_register_all();
     ffmpeg_initialized = true;
   }
 }

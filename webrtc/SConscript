@@ -25,15 +25,15 @@ target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
 objs.append(target)
 
 
-totalSources = [
+totalSources1 = [
     "call/rtc_event_log.cc",
     "call/rtc_event_log.h",
   ]
 
-_myName='libgsv_rtc_event'
-objs = objs+totalSources
-target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
-objs.append(target)
+#_myName='libgsv_rtc_event'
+#objs = objs+totalSources1
+#target +=_env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+#objs.append(target)
 
 
 Return('target')

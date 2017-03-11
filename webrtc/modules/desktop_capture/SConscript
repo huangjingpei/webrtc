@@ -1,0 +1,93 @@
+﻿Import('*')
+
+_env = env.Clone()
+_env.Append(CPPFLAGS = ' -DUSE_X11 ')
+
+
+_env.Append(CPPPATH = ['#.',
+	'#webrtc', 
+	'third_party/testing/gtest/include/',
+	'#third_party',
+	'#third_party/testing/gtest/include',
+	'#third_party/depends/libvpx', 
+	'#third_party/depends/libyuv/include'])
+
+_env.Append(LIBPATH = '#release')
+_env['LIBS'] = ['c', 
+    'dl', 
+    'gsv_webrtc_test_util',
+    'gsv_module_video_coding',
+    'gsv_common_video',
+    'gsv_thp_yuv',
+    'gsv_thp_jpeg',
+    'gsv_system_wrappers', 
+    'gsv_base', 
+    'gsv_common',
+    'pthread', 
+    'rt',
+	'X11',
+	'Xcomposite',
+	'Xdamage',
+	'Xext',
+	'Xfixes',
+	'Xrender',
+    'dl']
+
+totalSources = [
+	"desktop_frame.cc",
+	"desktop_geometry.cc",
+	"desktop_region.cc",
+	#"differ_block_sse2.cc",
+	"cropped_desktop_frame.cc",
+	"cropping_window_capturer.cc",
+    "screen_region_capture.cc",
+
+
+	"desktop_and_cursor_composer.cc",
+
+	"desktop_capture_options.cc",
+
+
+	"differ.cc",
+
+	"differ_block.cc",
+
+
+	"mouse_cursor.cc",
+
+
+
+
+
+	"screen_capturer_helper.cc",
+
+
+	"shared_desktop_frame.cc",
+
+	"shared_memory.cc",
+
+
+
+
+
+	"mouse_cursor_monitor_x11.cc",
+	"screen_capturer_x11.cc",
+	"window_capturer_x11.cc",
+	"x11/shared_x_display.cc",
+	"x11/x_error_trap.cc",
+
+	"x11/x_server_pixel_buffer.cc",
+	"mycapture.cc"
+
+  ]
+
+
+
+_myName='libgsv_modules_destop_capture'
+objs = totalSources
+#target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+target = _env.Program('mycapture', objs)
+objs.append(target)
+
+
+Return('target')

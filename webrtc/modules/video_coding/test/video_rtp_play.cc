@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "webrtc/modules/video_coding/test/receiver_tests.h"
+#include "webrtc/modules/video_coding/include/video_coding_defines.h"
 #include "webrtc/modules/video_coding/test/vcm_payload_sink_factory.h"
 #include "webrtc/system_wrappers/include/trace.h"
 #include "webrtc/test/testsupport/fileutils.h"
@@ -26,9 +27,10 @@ const int64_t kConfigRttMs = 0;
 const uint32_t kConfigRenderDelayMs = 0;
 const uint32_t kConfigMinPlayoutDelayMs = 0;
 const int64_t kConfigMaxRuntimeMs = -1;
-const uint8_t kDefaultUlpFecPayloadType = 97;
-const uint8_t kDefaultRedPayloadType = 96;
+const uint8_t kDefaultUlpFecPayloadType = 95;
+const uint8_t kDefaultRedPayloadType = 116;
 const uint8_t kDefaultVp8PayloadType = 100;
+const uint8_t kDefaultH264PayloadType = 99;
 }  // namespace
 
 int RtpPlay(const CmdArgs& args) {
@@ -44,6 +46,8 @@ int RtpPlay(const CmdArgs& args) {
       kDefaultRedPayloadType, "RED", webrtc::kVideoCodecRED));
   payload_types.push_back(webrtc::rtpplayer::PayloadCodecTuple(
       kDefaultVp8PayloadType, "VP8", webrtc::kVideoCodecVP8));
+  payload_types.push_back(webrtc::rtpplayer::PayloadCodecTuple(
+      kDefaultH264PayloadType, "H264", webrtc::kVideoCodecH264));
 
   std::string output_file = args.outputFile;
   if (output_file.empty())
@@ -57,6 +61,7 @@ int RtpPlay(const CmdArgs& args) {
       webrtc::rtpplayer::Create(args.inputFile, &factory, &clock, payload_types,
                                 kConfigLossRate, kConfigRttMs,
                                 kConfigReordering));
+  printf("rtp_player  %p\n", rtp_player.get());
   if (rtp_player.get() == NULL) {
     return -1;
   }
@@ -68,7 +73,7 @@ int RtpPlay(const CmdArgs& args) {
                     clock.TimeInMilliseconds() >= kConfigMaxRuntimeMs)) {
       break;
     }
-    clock.AdvanceTimeMilliseconds(1);
+    clock.AdvanceTimeMilliseconds(10);
   }
 
   rtp_player->Print();

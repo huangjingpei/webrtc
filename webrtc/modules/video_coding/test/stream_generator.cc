@@ -14,7 +14,7 @@
 
 #include <list>
 
-#include "testing/gtest/include/gtest/gtest.h"
+//#include "testing/gtest/include/gtest/gtest.h"
 #include "webrtc/modules/video_coding/packet.h"
 #include "webrtc/modules/video_coding/test/test_util.h"
 #include "webrtc/system_wrappers/include/clock.h"
@@ -57,7 +57,7 @@ VCMPacket StreamGenerator::GeneratePacket(uint16_t sequence_number,
                                           bool first_packet,
                                           bool marker_bit,
                                           FrameType type) {
-  EXPECT_LT(size, kMaxPacketSize);
+  //EXPECT_LT(size, kMaxPacketSize);
   VCMPacket packet;
   packet.seqNum = sequence_number;
   packet.timestamp = timestamp;

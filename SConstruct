@@ -54,6 +54,7 @@ if 0 == len(targets):
 	'webrtc/modules/video_coding/codecs/h264',
 	'webrtc/modules/pacing',
 	'webrtc/modules/video_capture',
+    'webrtc/modules/desktop_capture',
 	'webrtc/modules/rtp_rtcp',
 	#'webrtc/modules/rtp_rtcp/test/mytest',
 	'webrtc/modules/video_coding',
@@ -78,6 +79,8 @@ for _target in targets:
 			            AS=_prefix + 'gcc')
 
     env['ARFLAGS']='crsP'
+    env['AS'] = 'as'
+	#env['ASCOM'] = '$AS -o $TARGET $ASFLAG -S $SOURCES'
 
     _ASFLAGS='-c -fno-exceptions -Wno-multichar -msoft-float -fpic -fPIE -ffunction-sections -fdata-sections -funwind-tables -fstack-protector -Wa,--noexecstack -Werror=format-security -D_FORTIFY_SOURCE=1 -fno-short-enums -march=armv7-a -fno-builtin-sin -Wno-psabi -mthumb-interwork -DANDROID -fmessage-length=0 -W -Wall -Wno-unused -Winit-self -Wpointer-arith -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -DNDEBUG -g -Wstrict-aliasing=2 -fgcse-after-reload -frerun-cse-after-loop -frename-registers'
 #-march=armv7-a -mfloat-abi=softfp -mfpu=vfp 

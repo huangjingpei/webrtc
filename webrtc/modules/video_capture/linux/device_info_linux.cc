@@ -30,6 +30,7 @@ namespace videocapturemodule
 VideoCaptureModule::DeviceInfo*
 VideoCaptureImpl::CreateDeviceInfo(const int32_t id)
 {
+	printf("DeviceInfoLinux!\n");
     return new videocapturemodule::DeviceInfoLinux(id);
 }
 
@@ -79,6 +80,7 @@ int32_t DeviceInfoLinux::GetDeviceName(
                                          uint32_t /*productUniqueIdUTF8Length*/)
 {
     WEBRTC_TRACE(webrtc::kTraceApiCall, webrtc::kTraceVideoCapture, _id, "%s", __FUNCTION__);
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
 
     // Travel through /dev/video [0-63]
     uint32_t count = 0;
@@ -103,7 +105,7 @@ int32_t DeviceInfoLinux::GetDeviceName(
 
     if (!found)
         return -1;
-
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
     // query device capabilities
     struct v4l2_capability cap;
     if (ioctl(fd, VIDIOC_QUERYCAP, &cap) < 0)
@@ -114,7 +116,7 @@ int32_t DeviceInfoLinux::GetDeviceName(
         close(fd);
         return -1;
     }
-
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
     close(fd);
 
     char cameraName[64];
@@ -130,7 +132,7 @@ int32_t DeviceInfoLinux::GetDeviceName(
         WEBRTC_TRACE(webrtc::kTraceError, webrtc::kTraceVideoCapture, _id, "buffer passed is too small");
         return -1;
     }
-
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
     if (cap.bus_info[0] != 0) // may not available in all drivers
     {
         // copy device id
@@ -147,7 +149,7 @@ int32_t DeviceInfoLinux::GetDeviceName(
             return -1;
         }
     }
-
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
     return 0;
 }
 

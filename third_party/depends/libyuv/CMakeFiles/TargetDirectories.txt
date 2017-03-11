@@ -1,0 +1,2 @@
+/home/jphuang/myprojects/GVC3200/WebRTC/myrtc/webrtc/third_party/depends/libyuv/CMakeFiles/convert.dir
+/home/jphuang/myprojects/GVC3200/WebRTC/myrtc/webrtc/third_party/depends/libyuv/CMakeFiles/yuv.dir

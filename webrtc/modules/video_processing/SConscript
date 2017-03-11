@@ -32,8 +32,8 @@ totalSources = [
 
 
 
-	"content_analysis_sse2.cc",
-	"util/denoiser_filter_sse2.cc",
+	#"content_analysis_sse2.cc",
+	#"util/denoiser_filter_sse2.cc",
 
 
 

@@ -11,7 +11,7 @@
 #include "webrtc/modules/video_capture/video_capture_factory.h"
 
 #include "webrtc/modules/video_capture/video_capture_impl.h"
-
+#undef ANDROID
 namespace webrtc {
 
 rtc::scoped_refptr<VideoCaptureModule> VideoCaptureFactory::Create(
