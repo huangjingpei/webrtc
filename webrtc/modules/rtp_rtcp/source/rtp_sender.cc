@@ -744,6 +744,7 @@ bool RTPSender::SendPacketToNetwork(const uint8_t* packet,
                                     const PacketOptions& options) {
   int bytes_sent = -1;
   if (transport_) {
+	  printf("send rtp packet size %d\n",size);
     bytes_sent = transport_->SendRtp(packet, size, options)
                      ? static_cast<int>(size)
                      : -1;

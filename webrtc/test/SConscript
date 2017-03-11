@@ -92,6 +92,15 @@ totalSources = [
         'testsupport/trace_to_stderr.cc',
 
         'histogram.cc',
+        
+        'channel_transport/channel_transport.cc',
+
+        'channel_transport/udp_socket_manager_posix.cc',
+        'channel_transport/udp_socket_manager_wrapper.cc',
+        'channel_transport/udp_socket_posix.cc',
+        'channel_transport/udp_socket_wrapper.cc',
+        'channel_transport/udp_transport_impl.cc',
+  
 
   ]
 

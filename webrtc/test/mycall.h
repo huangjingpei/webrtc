@@ -22,16 +22,36 @@
 #include "webrtc/test/video_capturer.h"
 #include "webrtc/test/rtp_rtcp_observer.h"
 
+#include "webrtc/test/channel_transport/udp_socket_wrapper.h"
+#include "webrtc/test/channel_transport/udp_transport.h"
+
 using namespace webrtc;
 using namespace test;
-class VoEBase;
-class VoECodec;
-class VoENetwork;
 
 
 
+
+
+class UdpTransportDataImpl : public UdpTransportData
+{
+public:
+  virtual ~UdpTransportDataImpl()  {};
+
+  virtual void IncomingRTPPacket(const int8_t* incomingRtpPacket,
+                                 const size_t rtpPacketLength,
+                                 const char* fromIP,
+                                 const uint16_t fromPort){
+	  printf("incoming rtp : %s:%d len %d\n", fromIP, fromPort, rtpPacketLength);
+  }
+
+  virtual void IncomingRTCPPacket(const int8_t* incomingRtcpPacket,
+                                  const size_t rtcpPacketLength,
+                                  const char* fromIP,
+                                  const uint16_t fromPort){
+	  printf("incoming rtcp : %s:%d len %d\n", fromIP, fromPort, rtcpPacketLength);
+  }
+};
 class BaseTest;
-
 class MyCALL {
  public:
   MyCALL();
@@ -90,6 +110,7 @@ class MyCALL {
 
   rtc::scoped_ptr<Call> sender_call_;
   rtc::scoped_ptr<PacketTransport> send_transport_;
+  rtc::scoped_ptr<UdpTransport> udp_transport_;
   VideoSendStream::Config video_send_config_;
   VideoEncoderConfig video_encoder_config_;
   VideoSendStream* video_send_stream_;
@@ -132,7 +153,7 @@ class MyCALL {
   };
 
   void CreateVoiceEngines();
-  void SetupVoiceEngineTransports(PacketTransport* send_transport,
+  void SetupVoiceEngineTransports(UdpTransport* send_transport,
                                   PacketTransport* recv_transport);
   void DestroyVoiceEngines();
 
@@ -152,15 +173,19 @@ class BaseTest : public RtpRtcpObserver {
   virtual void PerformTest();
   virtual bool ShouldCreateReceivers() const = 0;
 
-  virtual size_t GetNumVideoStreams() const;
-  virtual size_t GetNumAudioStreams() const;
-
   virtual Call::Config GetSenderCallConfig();
   virtual Call::Config GetReceiverCallConfig();
   virtual void OnCallsCreated(Call* sender_call, Call* receiver_call);
 
   virtual test::PacketTransport* CreateSendTransport(Call* sender_call);
   virtual test::PacketTransport* CreateReceiveTransport();
+
+
+
+  virtual UdpTransport* CreateUdpSendTransport(Call* sender_call);
+  virtual UdpTransport* CreateUdpReceiveTransport();
+
+
 
   virtual void ModifyVideoConfigs(
       VideoSendStream::Config* send_config,
