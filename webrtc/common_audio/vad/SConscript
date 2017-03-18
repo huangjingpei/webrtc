@@ -1,7 +1,6 @@
 ﻿Import('*')
 
 _env = env.Clone()
-print "AAAAAAAAAAAAAAAAAAAAA", type(_env['CPPFLAGS'])
 _env.Append(CPPPATH = ['#.', '#webrtc'])
 _env.Append(LIBPATH = 'lib')
 _env['LIBS'] = ['c', 'rt', 'dl']

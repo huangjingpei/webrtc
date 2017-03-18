@@ -78,6 +78,7 @@ totalSources = [
     "signal_processing/sqrt_of_one_minus_x_squared.c",
     "signal_processing/vector_scaling_operations.c",
     "signal_processing/complex_bit_reverse.c",
+    "signal_processing/filter_ar_fast_q12.c",
     "sparse_fir_filter.cc",
     "fir_filter.cc",
     #"fir_filter_sse.cc",

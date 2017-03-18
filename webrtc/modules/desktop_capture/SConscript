@@ -13,7 +13,8 @@ _env.Append(CPPPATH = ['#.',
 	'#third_party/depends/libyuv/include'])
 
 _env.Append(LIBPATH = '#release')
-_env['LIBS'] = ['c', 
+_env['LIBS'] = [
+    'c', 
     'dl', 
     'gsv_webrtc_test_util',
     'gsv_module_video_coding',
@@ -25,13 +26,14 @@ _env['LIBS'] = ['c',
     'gsv_common',
     'pthread', 
     'rt',
-	'X11',
-	'Xcomposite',
-	'Xdamage',
-	'Xext',
-	'Xfixes',
-	'Xrender',
-    'dl']
+    'X11',
+    'Xcomposite',
+    'Xdamage',
+    'Xext',
+    'Xfixes',
+    'Xrender',
+    'dl'
+    ]
 
 totalSources = [
 	"desktop_frame.cc",
@@ -77,7 +79,7 @@ totalSources = [
 	"x11/x_error_trap.cc",
 
 	"x11/x_server_pixel_buffer.cc",
-	"mycapture.cc"
+
 
   ]
 
@@ -85,8 +87,13 @@ totalSources = [
 
 _myName='libgsv_modules_destop_capture'
 objs = totalSources
-#target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
-target = _env.Program('mycapture', objs)
+target = _env.StaticLibrary(_myName + '.a', objs, _LIBFLAGS=' -Wl,-Bsymbolic')
+objs.append(target)
+
+objs1 =[]
+objs1.append("mycapture.cc")
+objs1.append(target)
+target = _env.Program('mycapture', 	objs1)
 objs.append(target)
 
 

@@ -67,7 +67,6 @@ int main()
     	sleep(10);
     }
 
-    std::unique_ptr<WindowCapturer> capturer_;
 
 #else
     std::unique_ptr<ScreenCapturer> capturer_;
